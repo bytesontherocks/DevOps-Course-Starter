@@ -5,15 +5,14 @@ from todo_app.flask_config import Config
 app = Flask(__name__)
 app.config.from_object(Config())
 
-
 @app.route('/index')
 def index():
-    items=get_items()    
+    items=get_items()
     return render_template('index.html', items=items)
 
 @app.route('/add_todo_item', methods=['POST'])
 def add_todo_item():
-    new_item_title = request.form.get('title')    
+    new_item_title = request.form.get('title')
     add_item(new_item_title)
     print("add_todo_item")
     return redirect(url_for('index'))
@@ -24,4 +23,3 @@ def item_completed():
     save_item(get_item(completed_item_id))
     print("item_completed")
     return redirect(url_for('index'))
-

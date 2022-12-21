@@ -1,8 +1,4 @@
 repos:
-  - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: v0.0.189
-    hooks:
-      - id: ruff
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v3.2.0
     hooks:
@@ -10,3 +6,7 @@ repos:
     -   id: end-of-file-fixer
     -   id: check-yaml
     -   id: check-added-large-files
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: v0.0.189
+    hooks:
+      - id: ruff
