@@ -21,14 +21,29 @@
     <div class="add_new_item">
       <label for="title">New item title: </label>
       <input type="text" name="title" id="title" required>
+    </div>
+    <div class="add_new_item">
       <input type="submit" value="Add item">
     </div>
   </form>
-  <form action="/item_completed" method="post" class="item_completed">
-    <div class="item_completed">
-      <label for="id">Id item completed: </label>
+  <form action="/remove_todo_item" method="post" class="remove_todo_item">
+    <div class="remove_todo_item">
+      <label for="id">Remove item with id: </label>
       <input type="text" name="id" id="id" required>
-      <input type="submit" value="Item completed">
+    </div>
+    <div class="remove_todo_item">
+      <input type="submit" value="Remove item">
+    </div>
+  </form>
+  <form action="/change_item_status" method="post" class="change_item_status">
+    <div class="change_item_status">
+      <label for="id">Change status of item with id: </label>
+      <input type="text" name="id" id="id" required>
+      <label for="status">New change_item_status: </label>
+      <input type="text" name="status" id="status" required>
+    </div>
+    <div class="change_item_status">
+      <input type="submit" value="Change status">
     </div>
   </form>
 {% endblock %}

@@ -13,7 +13,7 @@ def get_items():
     Returns:
         list: The list of saved items.
     """
-    return session.get('items', _DEFAULT_ITEMS.copy())
+    return _DEFAULT_ITEMS#session.get('items', _DEFAULT_ITEMS.copy())
 
 
 def get_item(id):
@@ -67,3 +67,21 @@ def save_item(item):
     session['items'] = updated_items
 
     return item
+
+def remove_item(id):
+
+    existing_items = get_items()
+
+    for it_ix in range(0,len(existing_items)):
+        if existing_items[it_ix]['id'] == int(id):
+            del existing_items[it_ix]
+            break
+
+def change_status(id, status):
+
+    existing_items = get_items()
+    print(f"id {id} and status {status}")
+    for it_ix in range(0,len(existing_items)):
+        if existing_items[it_ix]['id'] == int(id):
+            existing_items[it_ix]['status'] = status
+            break

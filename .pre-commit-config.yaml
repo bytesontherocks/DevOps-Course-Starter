@@ -7,6 +7,7 @@ repos:
     -   id: check-yaml
     -   id: check-added-large-files
   - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: v0.0.189
+    rev: v0.0.218
     hooks:
       - id: ruff
+        args: ["--force-exclude"]
