@@ -12,8 +12,8 @@ def index():
     items=get_items()    
     return render_template('index.html', items=items)
 
-# @app.route('/', methods=['POST'])
-# def add_todo_item():
-#     new_item_title = request.form.get('title')
-#     add_item(new_item_title)
-#     return redirect(url_for('index'))
+@app.route('/', methods=['POST'])
+def add_todo_item():
+    new_item_title = request.form.get('title')
+    add_item(new_item_title)
+    return redirect(url_for('index'))

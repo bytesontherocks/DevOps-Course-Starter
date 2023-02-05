@@ -32,6 +32,7 @@ def get_lists():
         lists = json.loads(response.text)
         for l in lists:
             names.append(l['name'])
+            print(f"List id{l['id']} and name {l['name']}")
     
     return names 
 
@@ -51,7 +52,6 @@ def get_list_id(list_name):
         lists = json.loads(response.text)
 
         for l in lists:
-            print(l)
             if l['name'] == list_name:
                 todo_list_id = l['id']
     else:
@@ -74,7 +74,7 @@ def get_cards_in_list(list_id, status):
     if response.status_code == 200:
         cards = json.loads(response.text)
        
-        print(cards)
+        #print(cards)
         for c in cards:
             item = {'id': c['idShort'], 'status': status, 'title': c['name']}
             items.append(item)        
@@ -84,6 +84,26 @@ def get_cards_in_list(list_id, status):
 
     return items
 
+def add_card(list_id, card_name):
+    url = "https://api.trello.com/1/cards"
+
+    query = {
+        'idList': list_id,
+        'name' : card_name,
+        'key': trello_api,
+        'token': trello_token
+    }
+
+    response = requests.request(
+        "POST",
+        url,
+        headers=headers,
+        params=query
+    )
+
+    print(response.request.url)
+    print(response.request.body)
+    print(response.request.headers)
 
 def get_items():
     """
@@ -128,18 +148,8 @@ def add_item(title):
     Returns:
         item: The saved item.
     """
-    items = get_items()
-
-    # Determine the ID for the item based on that of the previously added item
-    id = items[-1]['id'] + 1 if items else 0
-
-    item = { 'id': id, 'title': title, 'status': 'Not Started' }
-
-    # Add the item to the list
-    items.append(item)
-    session['items'] = items
-
-    return item
+    todo_list_id = get_list_id("To Do")
+    add_card(todo_list_id, title)
 
 
 def save_item(item):
