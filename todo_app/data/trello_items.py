@@ -59,7 +59,7 @@ def get_list_id(list_name):
 
     return todo_list_id
 
-def get_cards_in_list(list_id, status):
+def get_cards_in_list(list_id, list_name):
     
     url = f"https://api.trello.com/1/lists/{list_id}/cards"
 
@@ -76,13 +76,56 @@ def get_cards_in_list(list_id, status):
        
         #print(cards)
         for c in cards:
-            item = {'id': c['idShort'], 'status': status, 'title': c['name']}
+            item = {'id': c['idShort'], 'status': list_name, 'title': c['name']}
             items.append(item)        
     else:
         print(f"get_cards_in_list request has failed. Status code: {response.status_code}")
     
-
     return items
+
+def get_card_id(list_id, id_short : int):
+    
+    url = f"https://api.trello.com/1/lists/{list_id}/cards"
+
+    response = requests.request(
+        "GET",
+        url,
+        headers=headers,
+        params=query)
+
+    items = []
+    
+    if response.status_code == 200:
+        cards = json.loads(response.text)
+       
+        for c in cards:
+            if c['idShort'] == id_short:
+                return c['id']
+    else:
+        print(f"get_card_id request has failed. Status code: {response.status_code}")
+    
+    return ""
+
+def move_card_to_new_list(old_list_id, new_list_id, card_short_id):
+    card_id = get_card_id(old_list_id, card_short_id)
+
+    url = f"https://api.trello.com/1/lists/{card_id}/cards"
+    
+    query = {
+        'idList': new_list_id,
+        'key': trello_api,
+        'token': trello_token
+    }
+
+    print(f"moving card with Short ID {card_short_id} and long id {card_id} from old list id {old_list_id} to new list id {new_list_id}")
+
+    response = requests.request(
+        "PUT",
+        url,
+        headers=headers,
+        params=query
+    )
+
 
 def add_card(list_id, card_name):
     url = "https://api.trello.com/1/cards"
@@ -121,6 +164,12 @@ def get_items():
         for c in cards:
             all_items.append(c)
 
+     # Testing+
+    todo_list_id = get_list_id("To Do")
+    pm_list_id = get_list_id("from_postman")
+
+    move_card_to_new_list(todo_list_id, pm_list_id, 9)
+    #
     return  all_items
 
 
