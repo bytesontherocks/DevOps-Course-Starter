@@ -7,8 +7,6 @@ trello_api = os.getenv('TRELLO_API_KEY')
 trello_token = os.getenv('TRELLO_API_TOKEN')
 trello_board = os.getenv('TRELLO_BOARD_ID')
 
-url = f"https://api.trello.com/1/boards/{trello_board}/lists"
-
 headers = {
   "Accept": "application/json"
 }
@@ -19,18 +17,28 @@ query = {
 }
 
 def get_lists():
+    
+    url = f"https://api.trello.com/1/boards/{trello_board}/lists"
+
     response = requests.request(
         "GET",
         url,
         headers=headers,
         params=query)
 
+    names = []
+
     if response.status_code == 200:
         lists = json.loads(response.text)
         for l in lists:
-            print (f"name: {l['name']}")
+            names.append(l['name'])
+    
+    return names 
 
 def get_list_id(list_name):
+
+    url = f"https://api.trello.com/1/boards/{trello_board}/lists"
+
     response = requests.request(
         "GET",
         url,
@@ -47,9 +55,34 @@ def get_list_id(list_name):
             if l['name'] == list_name:
                 todo_list_id = l['id']
     else:
-        print(f"get_list_id has failed. Status code: {response.status_code}")
+        print(f"get_list_id request has failed. Status code: {response.status_code}")
 
     return todo_list_id
+
+def get_cards_in_list(list_id, status):
+    
+    url = f"https://api.trello.com/1/lists/{list_id}/cards"
+
+    response = requests.request(
+        "GET",
+        url,
+        headers=headers,
+        params=query)
+
+    items = []
+    
+    if response.status_code == 200:
+        cards = json.loads(response.text)
+       
+        print(cards)
+        for c in cards:
+            item = {'id': c['idShort'], 'status': status, 'title': c['name']}
+            items.append(item)        
+    else:
+        print(f"get_cards_in_list request has failed. Status code: {response.status_code}")
+    
+
+    return items
 
 
 def get_items():
@@ -59,9 +92,16 @@ def get_items():
     Returns:
         list: The list of saved items.
     """
-    get_lists()
-    get_list_id("To Do")
-    return []#session.get('items', _DEFAULT_ITEMS.copy())
+    #get_lists()
+    all_items = []
+    lists_names = get_lists()
+
+    for n in lists_names:
+        cards = get_cards_in_list(get_list_id(n),n)
+        for c in cards:
+            all_items.append(c)
+
+    return  all_items
 
 
 def get_item(id):
