@@ -107,9 +107,10 @@ def get_card_id(list_id, id_short : int):
     return ""
 
 def move_card_to_new_list(old_list_id, new_list_id, card_short_id):
+    
     card_id = get_card_id(old_list_id, card_short_id)
 
-    url = f"https://api.trello.com/1/lists/{card_id}/cards"
+    url = f"https://api.trello.com/1/cards/{card_id}"
     
     query = {
         'idList': new_list_id,
@@ -168,7 +169,7 @@ def get_items():
     todo_list_id = get_list_id("To Do")
     pm_list_id = get_list_id("from_postman")
 
-    move_card_to_new_list(todo_list_id, pm_list_id, 9)
+    move_card_to_new_list(todo_list_id, pm_list_id, 7)
     #
     return  all_items
 
