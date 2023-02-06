@@ -74,7 +74,6 @@ def get_cards_in_list(list_id, list_name):
     if response.status_code == 200:
         cards = json.loads(response.text)
        
-        #print(cards)
         for c in cards:
             item = {'id': c['idShort'], 'status': list_name, 'title': c['name']}
             items.append(item)        
@@ -93,8 +92,6 @@ def get_card_id(list_id, id_short : int):
         headers=headers,
         params=query)
 
-    items = []
-    
     if response.status_code == 200:
         cards = json.loads(response.text)
        
@@ -106,19 +103,19 @@ def get_card_id(list_id, id_short : int):
     
     return ""
 
-def move_card_to_new_list(old_list_id, new_list_id, card_short_id):
+def move_card_to_new_list(card_short_id, current_list_name, new_list_name):
+
+    current_list_id = get_list_id(current_list_name)
+    new_list_id = get_list_id(new_list_name)
     
-    card_id = get_card_id(old_list_id, card_short_id)
+    card_id = get_card_id(current_list_id, card_short_id)
 
     url = f"https://api.trello.com/1/cards/{card_id}"
-    
-    query = {
-        'idList': new_list_id,
-        'key': trello_api,
-        'token': trello_token
-    }
 
-    print(f"moving card with Short ID {card_short_id} and long id {card_id} from old list id {old_list_id} to new list id {new_list_id}")
+    # add destination list
+    query['idList'] = new_list_id
+    
+    print(f"moving card with Short ID {card_short_id} and long id {card_id} from old list id {current_list_id} to new list id {new_list_id}")
 
     response = requests.request(
         "PUT",
@@ -129,14 +126,11 @@ def move_card_to_new_list(old_list_id, new_list_id, card_short_id):
 
 
 def add_card(list_id, card_name):
+
     url = "https://api.trello.com/1/cards"
 
-    query = {
-        'idList': list_id,
-        'name' : card_name,
-        'key': trello_api,
-        'token': trello_token
-    }
+    query['name'] = card_name
+    query['idList'] = list_id
 
     response = requests.request(
         "POST",
@@ -157,6 +151,14 @@ def get_items():
         list: The list of saved items.
     """
     #get_lists()
+
+    # # Testing+
+    # todo_list_id = get_list_id("from_postman")
+    # pm_list_id = get_list_id( "To Do")
+
+    # move_card_to_new_list(todo_list_id, pm_list_id, 9)
+    # #
+
     all_items = []
     lists_names = get_lists()
 
@@ -165,12 +167,7 @@ def get_items():
         for c in cards:
             all_items.append(c)
 
-     # Testing+
-    todo_list_id = get_list_id("To Do")
-    pm_list_id = get_list_id("from_postman")
-
-    move_card_to_new_list(todo_list_id, pm_list_id, 7)
-    #
+     
     return  all_items
 
 
