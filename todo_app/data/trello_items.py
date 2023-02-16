@@ -183,8 +183,6 @@ def move_card_to_new_list(card_short_id, current_list_name, new_list_name):
     # add destination list
     query['idList'] = new_list_id
     
-    print(f"moving card with Short ID {card_short_id} and long id {card_id} from old list id {current_list_id} to new list id {new_list_id}")
-
     response = requests.request(
         "PUT",
         url,
