@@ -16,12 +16,12 @@ def add_todo_item():
     add_item(new_item_title)
     return redirect(url_for('index'))
 
-@app.route('/complete_item<id>')
+@app.route('/complete_item/<id>', methods=['POST'])
 def mark_item_as_complete(id):
     move_card_to_new_list(int(id), 'To Do', 'Done')
     return redirect(url_for('index'))
 
-@app.route('/todo<id>')
+@app.route('/todo/<id>', methods=['POST'])
 def mark_item_as_todo(id):
     move_card_to_new_list(int(id), 'Done', 'To Do')
     return redirect(url_for('index'))
