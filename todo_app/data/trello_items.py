@@ -53,7 +53,7 @@ def _get_list_id(list_name):
 
         for l in lists:
             if l['name'] == list_name:
-                todo_list_id = l['id']
+                list_id = l['id']
     else:
         print(f"_get_list_id request has failed. Status code: {response.status_code}")
 
