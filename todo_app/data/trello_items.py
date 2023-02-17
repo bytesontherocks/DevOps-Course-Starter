@@ -46,7 +46,7 @@ def _get_list_id(list_name):
         headers=headers,
         params=query)
 
-    todo_list_id = ""
+    list_id = ""
 
     if response.status_code == 200:
         lists = json.loads(response.text)
@@ -57,7 +57,7 @@ def _get_list_id(list_name):
     else:
         print(f"_get_list_id request has failed. Status code: {response.status_code}")
 
-    return todo_list_id
+    return list_id
 class Item:
     def __init__(self, id, name, status = 'To Do'):
         self.id = id
@@ -68,9 +68,11 @@ class Item:
     def from_trello_card(cls, card, list):
         return cls(card['id'], card['name'], list['name'])
 
-def _get_cards_in_list(list_id, list_name):
+def _get_cards():
     
-    url = f"https://api.trello.com/1/lists/{list_id}/cards"
+    url = f"https://api.trello.com/1/boards/{trello_board}/lists"
+    
+    query['cards'] = 'open'
 
     response = requests.request(
         "GET",
@@ -81,11 +83,12 @@ def _get_cards_in_list(list_id, list_name):
     items = []
     
     if response.status_code == 200:
-        cards = json.loads(response.text)
+        lists = json.loads(response.text)
 
-        for c in cards:
-            i = Item(c['idShort'], c['name'], list_name)
-            items.append(i)        
+        for list in lists:
+            cards = list['cards']
+            for c in cards:
+                items.append(Item(c['idShort'], c['name'], list['name']))
     else:
         print(f"_get_cards_in_list request has failed. Status code: {response.status_code}")
     
@@ -136,16 +139,8 @@ def get_items():
 
     Returns:
         list: The list of saved items.
-    """
-    all_items = []
-    lists_names = _get_lists()
-
-    for n in lists_names:
-        cards = _get_cards_in_list(_get_list_id(n),n)
-        for c in cards:
-            all_items.append(c)
-     
-    return  all_items
+    """     
+    return _get_cards()
 
 def add_item(title):
     """
