@@ -12,18 +12,20 @@
       <h2>Items</h2>
       <ul class="list-group mb-4">
         {% for item in items %}
-          <li>{{item}}</li>
+          <li>id: {{item.id}}          Status:  {{item.status}}          Name: {{item.name}}</li>
+            {% if 'To Do' in item.status %}
+              <form action="/complete_item/{{item.id}}" method="POST"><input type="submit" value="Complete"/></form>
+            {% else %}
+              <form action="/todo/{{item.id}}" method="POST"><input type="submit" value="To Do"/></form>
+            {% endif %}
         {% endfor %}
       </ul>
     </div>
   </div>
   <form action="" method="post" class="add_new_item">
     <div class="add_new_item">
-      <label for="title">New item title: </label>
+      <label for="title">Add item in the 'To Do' list: </label>
       <input type="text" name="title" id="title" required>
-    </div>
-    <div class="add_new_item">
       <input type="submit" value="Add item">
-    </div>
   </form>
 {% endblock %}
