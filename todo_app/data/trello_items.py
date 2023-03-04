@@ -2,6 +2,7 @@ from flask import session
 import requests
 import json
 import os
+import todo_app.data.Item
 
 trello_api = os.getenv('TRELLO_API_KEY')
 trello_token = os.getenv('TRELLO_API_TOKEN')
@@ -58,15 +59,6 @@ def _get_list_id(list_name):
         print(f"_get_list_id request has failed. Status code: {response.status_code}")
 
     return list_id
-class Item:
-    def __init__(self, id, name, status = 'To Do'):
-        self.id = id
-        self.name = name
-        self.status = status
-
-    @classmethod
-    def from_trello_card(cls, card, list):
-        return cls(card['id'], card['name'], list['name'])
 
 def _get_cards():
     
