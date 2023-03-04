@@ -18,7 +18,7 @@ def test_view_model_to_do_property():
     items_to_test = []
     items_to_test.append(Item(1, "testing1", "Done"))
     items_to_test.append(Item(100, "Dibi", "To Do"))
-    items_to_test.append(Item(1, "testing2", "Done"))
+    items_to_test.append(Item(96, "testing2", "Done"))
     items_to_test.append(Item(101, "Daba", "To Do"))
     items_to_test.append(Item(101, "Dudu", "To Do"))
     vm = ViewModel(items_to_test)
