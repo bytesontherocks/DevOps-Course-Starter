@@ -2,47 +2,46 @@ from flask import session
 import requests
 import json
 import os
-import todo_app.data.Item
+from  todo_app.data.Item import Item
 
-trello_api = os.getenv('TRELLO_API_KEY')
-trello_token = os.getenv('TRELLO_API_TOKEN')
-trello_board = os.getenv('TRELLO_BOARD_ID')
+# trello_api = os.getenv('TRELLO_API_KEY')
+# trello_token = os.getenv('TRELLO_API_TOKEN')
+# trello_board = os.getenv('TRELLO_BOARD_ID')
 
 headers = {
   "Accept": "application/json"
 }
 
 query = {
-  'key': trello_api,
-  'token': trello_token
+  'key': os.getenv('TRELLO_API_KEY'),
+  'token': os.getenv('TRELLO_API_TOKEN')
 }
 
-def _get_lists():
+# def _get_lists():
     
-    url = f"https://api.trello.com/1/boards/{trello_board}/lists"
+#     trello_board = os.getenv('TRELLO_BOARD_ID')
+#     url = f"https://api.trello.com/1/boards/{trello_board}/lists"
 
-    response = requests.request(
-        "GET",
-        url,
-        headers=headers,
-        params=query)
+#     response = requests.get(
+#         url,
+#         headers=headers,
+#         params=query)
 
-    names = []
+#     names = []
 
-    if response.status_code == 200:
-        lists = json.loads(response.text)
-        for l in lists:
-            names.append(l['name'])
-            print(f"List id{l['id']} and name {l['name']}")
+#     if response.status_code == 200:
+#         lists = json.loads(response.text)
+#         for l in lists:
+#             names.append(l['name'])
+#             print(f"List id{l['id']} and name {l['name']}")
     
-    return names 
+#     return names 
 
 def _get_list_id(list_name):
-
+    trello_board = os.getenv('TRELLO_BOARD_ID')
     url = f"https://api.trello.com/1/boards/{trello_board}/lists"
 
-    response = requests.request(
-        "GET",
+    response = requests.get(
         url,
         headers=headers,
         params=query)
@@ -61,13 +60,12 @@ def _get_list_id(list_name):
     return list_id
 
 def _get_cards():
-    
+    trello_board = os.getenv('TRELLO_BOARD_ID')
     url = f"https://api.trello.com/1/boards/{trello_board}/lists"
     
     query['cards'] = 'open'
 
-    response = requests.request(
-        "GET",
+    response = requests.get(
         url,
         headers=headers,
         params=query)
@@ -90,8 +88,7 @@ def _get_card_id(list_id, id_short : int):
     
     url = f"https://api.trello.com/1/lists/{list_id}/cards"
 
-    response = requests.request(
-        "GET",
+    response = requests.get(
         url,
         headers=headers,
         params=query)
@@ -114,8 +111,7 @@ def _add_card(list_id, card_name):
     query['name'] = card_name
     query['idList'] = list_id
 
-    response = requests.request(
-        "POST",
+    response = requests.post(
         url,
         headers=headers,
         params=query
@@ -170,8 +166,7 @@ def move_card_to_new_list(card_short_id, current_list_name, new_list_name):
     # add destination list
     query['idList'] = new_list_id
     
-    response = requests.request(
-        "PUT",
+    response = requests.put(
         url,
         headers=headers,
         params=query
