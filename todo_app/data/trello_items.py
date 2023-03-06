@@ -30,7 +30,7 @@ query = {
 #     names = []
 
 #     if response.status_code == 200:
-#         lists = json.loads(response.text)
+#         lists = response.json()
 #         for l in lists:
 #             names.append(l['name'])
 #             print(f"List id{l['id']} and name {l['name']}")
@@ -49,7 +49,7 @@ def _get_list_id(list_name):
     list_id = ""
 
     if response.status_code == 200:
-        lists = json.loads(response.text)
+        lists = response.json()
 
         for l in lists:
             if l['name'] == list_name:
@@ -73,7 +73,7 @@ def _get_cards():
     items = []
     
     if response.status_code == 200:
-        lists = json.loads(response.text)
+        lists = response.json()
 
         for list in lists:
             cards = list['cards']
@@ -94,7 +94,7 @@ def _get_card_id(list_id, id_short : int):
         params=query)
 
     if response.status_code == 200:
-        cards = json.loads(response.text)
+        cards = response.json()
        
         for c in cards:
             if c['idShort'] == id_short:

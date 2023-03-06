@@ -24,13 +24,15 @@ def test_index_page(monkeypatch, client):
 
     response = client.get('/')
 
-    #assert response.status_code == 200
-    #assert 'Test card' in response.data.decode()
+    decoded_data = response.data.decode()
 
+    assert response.status_code == 200
+    assert 'Test card to do' in decoded_data
+    assert 'Test card done' in decoded_data
 class StubResponse():
-    def __init__(self, fake_response_data):
+    def __init__(self, fake_response_data, fake_status_code):
         self.fake_response_data = fake_response_data
-
+        self.status_code = fake_status_code
     def json(self):
         return self.fake_response_data
 
@@ -40,13 +42,18 @@ def stub(url, headers={}, params={}):
     fake_response_data = None
     
     if url == f'https://api.trello.com/1/boards/{test_board_id}/lists':
-        fake_response_data = [{
-            'id': '123abc',
-            'name': 'To Do',
-            'cards': [{'id': '456', 'name': 'Test card'}],
-            'status_code' : 200
-        }]
-        return StubResponse(fake_response_data)
+        fake_response_data = [
+            {
+                'id': '123abc',            
+                'name': 'To Do',
+                'cards': [{'id': '456', 'idShort': '34','name': 'Test card to do'}]
+            },
+            {
+                'id': '787878',            
+                'name': 'Done',
+                'cards': [{'id': '2984', 'idShort': '28','name': 'Test card done'}]
+            }
+        ]
+        return StubResponse(fake_response_data, 200)
     
-
     raise Exception(f'Integration test did not expect URL "{url}"')
