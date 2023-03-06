@@ -4,10 +4,6 @@ import json
 import os
 from  todo_app.data.Item import Item
 
-# trello_api = os.getenv('TRELLO_API_KEY')
-# trello_token = os.getenv('TRELLO_API_TOKEN')
-# trello_board = os.getenv('TRELLO_BOARD_ID')
-
 headers = {
   "Accept": "application/json"
 }
@@ -16,26 +12,6 @@ query = {
   'key': os.getenv('TRELLO_API_KEY'),
   'token': os.getenv('TRELLO_API_TOKEN')
 }
-
-# def _get_lists():
-    
-#     trello_board = os.getenv('TRELLO_BOARD_ID')
-#     url = f"https://api.trello.com/1/boards/{trello_board}/lists"
-
-#     response = requests.get(
-#         url,
-#         headers=headers,
-#         params=query)
-
-#     names = []
-
-#     if response.status_code == 200:
-#         lists = response.json()
-#         for l in lists:
-#             names.append(l['name'])
-#             print(f"List id{l['id']} and name {l['name']}")
-    
-#     return names 
 
 def _get_list_id(list_name):
     trello_board = os.getenv('TRELLO_BOARD_ID')
