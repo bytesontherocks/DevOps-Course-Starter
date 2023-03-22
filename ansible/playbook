@@ -1,0 +1,11 @@
+- name: DevOps Ex4
+  hosts: ex4
+  remote_user: ec2-user
+
+  tasks:
+  - name: Create test folder
+    ansible.builtin.file:
+      path: /tmp/test
+      state: directory
+      mode: '777'
+    become: yes
