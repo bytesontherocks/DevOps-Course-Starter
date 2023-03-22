@@ -6,12 +6,22 @@
     - name: Install git
       yum:
         name: git
-        state: latest
-      become: yes
-    
-    - name: Install python3
-      yum:
+        state: latest        
         name: python3
         state: latest
       become: yes
     
+    - name: Install poetry
+      ansible.builtin.shell: install_poetry.sh >> poetry_installed.txt
+      args:
+        creates: poetry_installed.txt
+
+    - name: Create To Do App dir
+      ansible.builtin.file:
+        path: /opt/todoapp
+        state: directory
+        owner: 'ec2-user'
+        mode: '766'
+      become: yes
+
+
