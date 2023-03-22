@@ -3,9 +3,8 @@
   remote_user: ec2-user
 
   tasks:
-  - name: Create test folder
-    ansible.builtin.file:
-      path: /tmp/test
-      state: directory
-      mode: '777'
-    become: yes
+    - name: Install git
+      yum:
+        name: git
+        state: latest
+      become: yes
