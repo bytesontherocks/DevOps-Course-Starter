@@ -6,15 +6,28 @@
     - name: Install git
       yum:
         name: git
-        state: latest        
+        state: latest 
+      become: yes  
+
+    - name: Install python3  
+      yum:   
         name: python3
         state: latest
       become: yes
     
+    - name: Copy file with owner and permissions
+      ansible.builtin.copy:
+        src: ./install_poetry.sh
+        dest: /tmp/
+        owner: ec2-user
+        mode: '0644'
+        become: yes
+    
     - name: Install poetry
-      ansible.builtin.shell: install_poetry.sh >> poetry_installed.txt
+      ansible.builtin.shell: /tmp/install_poetry.sh >> poetry_installed.txt
       args:
         creates: poetry_installed.txt
+      become: yes
 
     - name: Create To Do App dir
       ansible.builtin.file:
@@ -23,5 +36,13 @@
         owner: 'ec2-user'
         mode: '766'
       become: yes
+
+    - name: Git checkout todoapp
+      ansible.builtin.git:
+        repo: https://github.com/bytesontherocks/DevOps-Course-Starter.git
+        dest: /opt/todoapp
+        version: ex4
+      
+      
 
 
