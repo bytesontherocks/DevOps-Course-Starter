@@ -1,5 +1,13 @@
 - name: DevOps Ex4
   hosts: ex4
+  vars_prompt:
+    - name: trello_api_key
+      prompt: Provide trello api key
+
+    - name: trello_api_token
+      prompt: Provide trello api token
+
+
   remote_user: ec2-user
 
   tasks:
@@ -43,10 +51,13 @@
         version: ex4
     
     - name: Change to repo dir
-      command: chdir=/opt/todoapp  /home/ec2-user/.local/bin/poetry install
+      ansible.builtin.command: chdir=/opt/todoapp  /home/ec2-user/.local/bin/poetry install
       become: yes
-    # - name: Poetry dependencies
-    #   shell:
-      
+
+    - name: Template a file, using symbolic modes (equivalent to 0644)
+      ansible.builtin.template:
+        src: .env.j2
+        dest: /opt/todoapp/.env
+      become: yes
 
 
