@@ -15,13 +15,12 @@
         state: latest
       become: yes
     
-    - name: Copy file with owner and permissions
+    - name: Copy script
       ansible.builtin.copy:
         src: ./install_poetry.sh
         dest: /tmp/
         owner: ec2-user
-        mode: '0644'
-        become: yes
+        mode: '0744'
     
     - name: Install poetry
       ansible.builtin.shell: /tmp/install_poetry.sh >> poetry_installed.txt
@@ -34,7 +33,7 @@
         path: /opt/todoapp
         state: directory
         owner: 'ec2-user'
-        mode: '766'
+        mode: '744'
       become: yes
 
     - name: Git checkout todoapp
@@ -42,7 +41,12 @@
         repo: https://github.com/bytesontherocks/DevOps-Course-Starter.git
         dest: /opt/todoapp
         version: ex4
-      
+    
+    - name: Change to repo dir
+      command: chdir=/opt/todoapp  /home/ec2-user/.local/bin/poetry install
+      become: yes
+    # - name: Poetry dependencies
+    #   shell:
       
 
 
