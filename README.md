@@ -63,3 +63,6 @@ Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser
 You can run all the test using 'poetry run pytest' 
 
 You can run individual test with any of the vscode pluggins e.g. Test Explorer and selecting the appropriate test.
+
+## Deploying web service to a managed node
+In the ansible directory you can find the playbook to deploy the flask application into a managed node and automatically run it. The playbook will prompt you to provide the trello credentials. Edit the inventory file to define the managed node IP.
