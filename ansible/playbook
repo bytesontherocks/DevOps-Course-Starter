@@ -29,6 +29,7 @@
         dest: /tmp/
         owner: ec2-user
         mode: '0744'
+      become: yes
     
     - name: Install poetry
       ansible.builtin.shell: /tmp/install_poetry.sh >> poetry_installed.txt
@@ -60,4 +61,17 @@
         dest: /opt/todoapp/.env
       become: yes
 
+    - name: Copy service
+      ansible.builtin.copy:
+        src: ./todoapp.service
+        dest: /etc/systemd/system/todoapp.service
+        owner: ec2-user
+        mode: '0744'
+      become: yes
 
+    - name: start flask service
+      ansible.builtin.systemd:
+        daemon_reload: true
+        name: todoapp.service
+        state: restarted
+      become: yes
