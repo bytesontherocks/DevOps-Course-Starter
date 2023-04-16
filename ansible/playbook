@@ -1,0 +1,79 @@
+- name: DevOps Ex4
+  hosts: ex4
+  vars_prompt:
+    - name: trello_api_key
+      prompt: Provide trello api key
+
+    - name: trello_api_token
+      prompt: Provide trello api token
+
+
+  remote_user: ec2-user
+
+  tasks:
+    - name: Install git
+      yum:
+        name: git
+        state: latest 
+      become: yes  
+
+    - name: Install python3  
+      yum:   
+        name: python3
+        state: latest
+      become: yes
+    
+    - name: Copy script
+      ansible.builtin.copy:
+        src: ./install_poetry.sh
+        dest: /tmp/
+        owner: ec2-user
+        mode: '0744'
+      become: yes
+    
+    - name: Install poetry
+      ansible.builtin.shell: /tmp/install_poetry.sh >> poetry_installed.txt
+      args:
+        creates: poetry_installed.txt
+      become: yes
+
+    - name: Create To Do App dir
+      ansible.builtin.file:
+        path: /opt/todoapp
+        state: directory
+        owner: 'ec2-user'
+        mode: '744'
+      become: yes
+
+    - name: Git checkout todoapp
+      ansible.builtin.git:
+        repo: https://github.com/bytesontherocks/DevOps-Course-Starter.git
+        dest: /opt/todoapp
+        version: ex4
+    
+    - name: Change to repo dir
+      ansible.builtin.command: /home/ec2-user/.local/bin/poetry install
+      args:
+        chdir: /opt/todoapp
+      become: yes
+
+    - name: Template a file, using symbolic modes (equivalent to 0644)
+      ansible.builtin.template:
+        src: .env.j2
+        dest: /opt/todoapp/.env
+      become: yes
+
+    - name: Copy service
+      ansible.builtin.copy:
+        src: ./todoapp.service
+        dest: /etc/systemd/system/todoapp.service
+        owner: ec2-user
+        mode: '0744'
+      become: yes
+
+    - name: start flask service
+      ansible.builtin.systemd:
+        daemon_reload: true
+        name: todoapp.service
+        state: restarted
+      become: yes
