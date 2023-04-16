@@ -2,46 +2,22 @@ from flask import session
 import requests
 import json
 import os
-
-trello_api = os.getenv('TRELLO_API_KEY')
-trello_token = os.getenv('TRELLO_API_TOKEN')
-trello_board = os.getenv('TRELLO_BOARD_ID')
+from  todo_app.data.Item import Item
 
 headers = {
   "Accept": "application/json"
 }
 
 query = {
-  'key': trello_api,
-  'token': trello_token
+  'key': os.getenv('TRELLO_API_KEY'),
+  'token': os.getenv('TRELLO_API_TOKEN')
 }
 
-def _get_lists():
-    
-    url = f"https://api.trello.com/1/boards/{trello_board}/lists"
-
-    response = requests.request(
-        "GET",
-        url,
-        headers=headers,
-        params=query)
-
-    names = []
-
-    if response.status_code == 200:
-        lists = json.loads(response.text)
-        for l in lists:
-            names.append(l['name'])
-            print(f"List id{l['id']} and name {l['name']}")
-    
-    return names 
-
 def _get_list_id(list_name):
-
+    trello_board = os.getenv('TRELLO_BOARD_ID')
     url = f"https://api.trello.com/1/boards/{trello_board}/lists"
 
-    response = requests.request(
-        "GET",
+    response = requests.get(
         url,
         headers=headers,
         params=query)
@@ -49,7 +25,7 @@ def _get_list_id(list_name):
     list_id = ""
 
     if response.status_code == 200:
-        lists = json.loads(response.text)
+        lists = response.json()
 
         for l in lists:
             if l['name'] == list_name:
@@ -58,24 +34,14 @@ def _get_list_id(list_name):
         print(f"_get_list_id request has failed. Status code: {response.status_code}")
 
     return list_id
-class Item:
-    def __init__(self, id, name, status = 'To Do'):
-        self.id = id
-        self.name = name
-        self.status = status
-
-    @classmethod
-    def from_trello_card(cls, card, list):
-        return cls(card['id'], card['name'], list['name'])
 
 def _get_cards():
-    
+    trello_board = os.getenv('TRELLO_BOARD_ID')
     url = f"https://api.trello.com/1/boards/{trello_board}/lists"
     
     query['cards'] = 'open'
 
-    response = requests.request(
-        "GET",
+    response = requests.get(
         url,
         headers=headers,
         params=query)
@@ -83,7 +49,7 @@ def _get_cards():
     items = []
     
     if response.status_code == 200:
-        lists = json.loads(response.text)
+        lists = response.json()
 
         for list in lists:
             cards = list['cards']
@@ -98,14 +64,13 @@ def _get_card_id(list_id, id_short : int):
     
     url = f"https://api.trello.com/1/lists/{list_id}/cards"
 
-    response = requests.request(
-        "GET",
+    response = requests.get(
         url,
         headers=headers,
         params=query)
 
     if response.status_code == 200:
-        cards = json.loads(response.text)
+        cards = response.json()
        
         for c in cards:
             if c['idShort'] == id_short:
@@ -122,8 +87,7 @@ def _add_card(list_id, card_name):
     query['name'] = card_name
     query['idList'] = list_id
 
-    response = requests.request(
-        "POST",
+    response = requests.post(
         url,
         headers=headers,
         params=query
@@ -178,8 +142,7 @@ def move_card_to_new_list(card_short_id, current_list_name, new_list_name):
     # add destination list
     query['idList'] = new_list_id
     
-    response = requests.request(
-        "PUT",
+    response = requests.put(
         url,
         headers=headers,
         params=query
