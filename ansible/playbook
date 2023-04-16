@@ -52,7 +52,9 @@
         version: ex4
     
     - name: Change to repo dir
-      ansible.builtin.command: chdir=/opt/todoapp  /home/ec2-user/.local/bin/poetry install
+      ansible.builtin.command: /home/ec2-user/.local/bin/poetry install
+      args:
+        chdir: /opt/todoapp
       become: yes
 
     - name: Template a file, using symbolic modes (equivalent to 0644)
