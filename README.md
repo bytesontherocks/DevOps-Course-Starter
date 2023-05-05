@@ -73,12 +73,19 @@ Run it ```  docker run -p 8000:8000 --env-file .env -it todo-app ```
 Bind the docker container port 8000 to the host port 8000 and pass the keys through the .env file.
 
 ### Multi stage
+
+``` 
 docker build --target prod -t todo-app:prod .       
 docker run --env-file ./.env -p 8000:8000 -it todo-app:prod
+```
 
+```
 docker build --target dev -t todo-app:dev .       
 docker run --env-file ./.env -p 5000:5000 --mount type=bind,source="$(pwd)"/todo_app,target=/todo_app -it todo-app:dev
+```
 
+## Using Docker compose
+Alternative to run the long docker run instruction for development the docker compose file can be used: ``` docker compose up ```
 ## General docker actions
 To delete all containers including its volumes use: ``` docker rm -vf $(docker ps -aq) ```
 To delete all the images: ``` docker rmi -f $(docker images -aq)  ```
