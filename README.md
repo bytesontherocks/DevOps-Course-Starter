@@ -66,3 +66,15 @@ You can run individual test with any of the vscode pluggins e.g. Test Explorer a
 
 ## Deploying web service to a managed node
 In the ansible directory you can find the playbook to deploy the flask application into a managed node and automatically run it. The playbook will prompt you to provide the trello credentials. Edit the inventory file to define the managed node IP.
+
+## Running the application in Docker
+Create the container image ```  docker build -t todo-app .   ```
+Run it ```  docker run -p 8000:8000 --env-file .env -it todo-app ```
+Bind the docker container port 8000 to the host port 8000 and pass the keys through the .env file.
+
+### Multi stage
+docker build --target prod -t todo-app:prod .       
+docker run --env-file ./.env -p 8000:8000 -it todo-app:prod
+
+docker build --target dev -t todo-app:dev .       
+docker run --env-file ./.env -p 5000:5000 --mount type=bind,source="$(pwd)"/todo_app,target=/todo_app -it todo-app:dev
