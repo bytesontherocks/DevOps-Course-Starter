@@ -1,11 +1,11 @@
-FROM python:latest as base
+FROM python:3.11-slim-buster as base
 
 RUN apt-get update && apt-get install -y curl
 RUN curl -sSL https://install.python-poetry.org | python3 -
 ENV PATH="${PATH}:/root/.local/share/pypoetry/venv/bin/"
 
 COPY pyproject.toml /pyproject.toml
-RUN poetry install --no-root --no-interaction
+RUN poetry install --no-root --no-interaction --without dev
 
 FROM base as prod
 

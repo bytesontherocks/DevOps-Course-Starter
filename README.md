@@ -78,3 +78,8 @@ docker run --env-file ./.env -p 8000:8000 -it todo-app:prod
 
 docker build --target dev -t todo-app:dev .       
 docker run --env-file ./.env -p 5000:5000 --mount type=bind,source="$(pwd)"/todo_app,target=/todo_app -it todo-app:dev
+
+## General docker actions
+To delete all containers including its volumes use: ``` docker rm -vf $(docker ps -aq) ```
+To delete all the images: ``` docker rmi -f $(docker images -aq)  ```
+
