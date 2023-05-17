@@ -93,9 +93,9 @@ def _add_card(list_id, card_name):
         params=query
     )
 
-    print(response.request.url)
-    print(response.request.body)
-    print(response.request.headers)
+    #print(response.request.url)
+    #print(response.request.body)
+    #print(response.request.headers)
 
 def get_items():
     """
@@ -135,20 +135,25 @@ def move_card_to_new_list(card_short_id, current_list_name, new_list_name):
     new_list_id = _get_list_id(new_list_name)    
     card_id = _get_card_id(current_list_id, card_short_id)
 
-    #TODO: check errors
+    if current_list_id == "" or new_list_id == "" or card_id == "":
+        print(f"card_short_id: {card_short_id}")
+        print(f"current_list_name: {current_list_name}")
+        print(f"new_list_name: {new_list_name}")
+        print("Movement not allowed. Only from Status 'To Do' to 'Done' or vice versa. Check item status!")
 
-    url = f"https://api.trello.com/1/cards/{card_id}"
+    else: 
+        url = f"https://api.trello.com/1/cards/{card_id}"
 
-    # add destination list
-    query['idList'] = new_list_id
-    
-    response = requests.put(
-        url,
-        headers=headers,
-        params=query
-    )
+        # add destination list
+        query['idList'] = new_list_id
+        
+        response = requests.put(
+            url,
+            headers=headers,
+            params=query
+        )
 
-    if response.status_code == 200:
-        print("card moved successfully")
-    else:
-        print("Error moving card")
+        if response.status_code == 200:
+            print("card moved successfully")
+        else:
+            print("Error moving card")
