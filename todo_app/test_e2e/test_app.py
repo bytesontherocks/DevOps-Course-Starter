@@ -63,7 +63,7 @@ def create_trello_board():
     if response.status_code == 200:
         resp_json = response.json()
         testing_board['id'] = resp_json['id']
-        print(f"Print new testing board id: {testing_board['id']}")
+        #print(f"Print new testing board id: {testing_board['id']}")
     
     return testing_board['id']
 

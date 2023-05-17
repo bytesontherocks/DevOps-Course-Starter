@@ -13,4 +13,4 @@ services:
     env_file:
       - .env
     volumes:
-      - ./todo_app:/todo_app
+      - ./todo_app:/web_app/todo_app

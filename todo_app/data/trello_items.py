@@ -93,9 +93,9 @@ def _add_card(list_id, card_name):
         params=query
     )
 
-    print(response.request.url)
-    print(response.request.body)
-    print(response.request.headers)
+    #print(response.request.url)
+    #print(response.request.body)
+    #print(response.request.headers)
 
 def get_items():
     """

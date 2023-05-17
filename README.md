@@ -79,9 +79,10 @@ docker build --target prod -t todo-app:prod .
 docker run --env-file ./.env -p 8000:8000 -it todo-app:prod
 ```
 
+In dev we worked in the app mapped version from the host to see changes.
 ```
 docker build --target dev -t todo-app:dev .       
-docker run --env-file ./.env -p 5000:5000 --mount type=bind,source="$(pwd)"/todo_app,target=/todo_app -it todo-app:dev
+docker run --env-file ./.env -p 5000:5000 --mount type=bind,source="$(pwd)"/todo_app,target=/web_app/todo_app -it todo-app:dev
 ```
 
 ## Using Docker compose
