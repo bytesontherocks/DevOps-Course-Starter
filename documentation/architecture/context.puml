@@ -1,0 +1,11 @@
+@startuml to_do_context
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+Person(user, "User", "Person who wants to manage the project")
+Container(web_app, "To-Do Web App", "Flask, Python", "Allows managment of To-Do cards")
+System(trello, "Trello", "Rest API")
+
+Rel(user, web_app, "Uses", "HTTPS")
+Rel(web_app, trello, "Sets data", "HTTPS")
+Rel(trello, web_app, "Gets data", "HTTPS")
+@enduml
