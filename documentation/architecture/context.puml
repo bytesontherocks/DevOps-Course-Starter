@@ -1,11 +1,13 @@
-@startuml to_do_context
+@startuml context_diagram
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
 
-Person(user, "User", "Person who wants to manage the project")
-Container(web_app, "To-Do Web App", "Flask, Python", "Allows managment of To-Do cards")
-System(trello, "Trello", "Rest API")
+Person(user, "User", "A person that wants to manage tasks")
+Person(developer, "Developer", "Develops")
+System(app, "Application", "Software system")
+System(trello, "Trello", "Rest API, Persistent Data")
 
-Rel(user, web_app, "Uses", "HTTPS")
-Rel(web_app, trello, "Sets data", "HTTPS")
-Rel(trello, web_app, "Gets data", "HTTPS")
-@enduml
+Rel(user, app, "Uses")
+Rel(developer, app, "Develops and tests")
+Rel(app, trello, "Create and update tasks")
+Rel(trello, app, "Retrives tasks")
+@endumls
