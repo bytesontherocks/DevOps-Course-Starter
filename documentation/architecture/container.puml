@@ -1,4 +1,4 @@
-@startuml to_do_context
+@startuml to_do_conteiners
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
 
 
@@ -9,7 +9,7 @@ Person(developer, "Developer", "Develops")
 System_Boundary(app, "Software system", $link="https://github.com/plantuml-stdlib/C4-PlantUML") {
     Container(prod_web_server, "Production Web Server", "gunicorn", $link="https://github.com/plantuml-stdlib/C4-PlantUML/blob/master/LayoutOptions.md")
     Container(dev_web_server, "Development Web Server", "flask", $link="https://github.com/plantuml-stdlib/C4-PlantUML/blob/master/LayoutOptions.md")
-     Container(web_application, "Web Application", "Python", $link="https://github.com/plantuml-stdlib/C4-PlantUML/blob/master/LayoutOptions.md")
+    Container(web_application, "Web Application", "Python", $link="https://github.com/plantuml-stdlib/C4-PlantUML/blob/master/LayoutOptions.md")
 }
 
 System(trello, "Trello", "Rest API, Persistent Data")
@@ -18,7 +18,7 @@ Rel(user, prod_web_server, "Uses", "HTTPS")
 Rel(developer, dev_web_server, "Develops and tests", "HTTPS")
 Rel(prod_web_server, web_application, "Uses")
 Rel(dev_web_server, web_application, "Uses")
-Rel(app, trello, "Create and update tasks", "HTTPS, REST API")
-Rel(trello, app, "Retrives tasks", "HTTPS, REST API")
+Rel(web_application, trello, "Create and update tasks", "HTTPS, REST API")
+Rel(trello, web_application, "Retrives tasks", "HTTPS, REST API")
 
 @enduml
