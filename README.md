@@ -91,3 +91,14 @@ Alternative to run the long docker run instruction for development the docker co
 To delete all containers including its volumes use: ``` docker rm -vf $(docker ps -aq) ```
 To delete all the images: ``` docker rmi -f $(docker images -aq)  ```
 
+## Generating architecture documentation
+Install PlantUML from Jebbs in VSCode (https://marketplace.visualstudio.com/items?itemName=jebbs.plantuml)
+
+You can render the diagrams locally (ALT + D) or export them using different formats.
+
+To configure the export files, add the following lines in the .vscode/settings.json
+
+```
+"plantuml.diagramsRoot": "documentation/architecture",
+"plantuml.exportOutDir": "documentation/architecture/out"
+```
