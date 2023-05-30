@@ -1,0 +1,12 @@
+@startuml context_diagram
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+Person(user, "User", "A person that wants to manage tasks")
+System(app, "Application", "Software system")
+System(trello, "Trello (external)", "Rest API, Persistent Data")
+
+Rel(user, app, "Uses")
+Rel(app, trello, "Request/Response data")
+
+@endumls

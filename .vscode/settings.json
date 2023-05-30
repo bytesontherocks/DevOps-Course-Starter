@@ -3,5 +3,7 @@
         "todo_app"
     ],
     "python.testing.unittestEnabled": false,
-    "python.testing.pytestEnabled": true
+    "python.testing.pytestEnabled": true,
+    "plantuml.diagramsRoot": "documentation/architecture",
+    "plantuml.exportOutDir": "documentation/architecture/out"
 }

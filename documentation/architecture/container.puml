@@ -1,0 +1,21 @@
+@startuml container_diagram
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+Person(user, "User", "A person that wants to manage tasks")
+Person(developer, "Developer", "Develops")
+
+System_Boundary(app, "Software system", $link="https://github.com/plantuml-stdlib/C4-PlantUML") {
+    Container(prod_web_server, "Production Web Server", "gunicorn", $link="https://github.com/plantuml-stdlib/C4-PlantUML/blob/master/LayoutOptions.md")
+    Container(dev_web_server, "Development Web Server", "flask", $link="https://github.com/plantuml-stdlib/C4-PlantUML/blob/master/LayoutOptions.md")
+    Container(web_application, "Web Application", "Python", $link="https://github.com/plantuml-stdlib/C4-PlantUML/blob/master/LayoutOptions.md")
+}
+
+System(trello, "Trello (external)", "Rest API, Persistent Data")
+
+Rel(user, prod_web_server, "Uses", "HTTPS")
+Rel(developer, dev_web_server, "Develops and tests", "HTTPS")
+Rel(prod_web_server, web_application, "Uses")
+Rel(dev_web_server, web_application, "Uses")
+Rel(web_application, trello, "Request/Response data", "HTTPS, REST API")
+
+@enduml

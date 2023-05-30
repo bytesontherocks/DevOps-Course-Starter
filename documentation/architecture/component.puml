@@ -1,0 +1,21 @@
+@startuml wep_application_component_diagram
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+Container(prod_web_server, "Production Web Server", "gunicorn", $link="https://github.com/plantuml-stdlib/C4-PlantUML/blob/master/LayoutOptions.md")
+Container(dev_web_server, "Development Web Server", "flask", $link="https://github.com/plantuml-stdlib/C4-PlantUML/blob/master/LayoutOptions.md")
+
+Container_Boundary(web_application, "Web Application", "Container") {
+    Component(web_controller, "Web App Controller", "Creates a Multi-page web")
+    Component(html_template, "HTML template", "Jinja, Python", "Creates HTML Web Page")
+    Component(tasks_data, "Tasks data interface", "Python")
+}
+
+System(trello, "Trello (external)", "Rest API, Persistent Data")
+
+Rel(prod_web_server, web_controller, "Makes API calls", "HTTPS(get, post)")
+Rel(dev_web_server, web_controller, "Makes API calls", "HTTPS(get, post)")
+Rel(web_controller, tasks_data, "Reads/Writes tasks data")
+Rel(tasks_data, trello,  "Request/Response data", "HTTPS, REST API")
+Rel(web_controller, html_template, "Renders web page", "HTML")
+
+@enduml
