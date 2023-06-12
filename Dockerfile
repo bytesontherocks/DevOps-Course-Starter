@@ -16,3 +16,9 @@ ENTRYPOINT ["poetry", "run", "gunicorn", "--chdir=/web_app/todo_app", "app:creat
 
 FROM base as dev 
 ENTRYPOINT ["poetry", "run", "flask", "run", "--host=0.0.0.0"]
+
+FROM base as test
+COPY .env.test .
+COPY todo_app ./todo_app
+ENTRYPOINT ["poetry", "run", "pytest"]
+# CMD [ "bash" ]

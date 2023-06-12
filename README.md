@@ -85,6 +85,13 @@ docker build --target dev -t todo-app:dev .
 docker run --env-file ./.env -p 5000:5000 --mount type=bind,source="$(pwd)"/todo_app,target=/web_app/todo_app -it todo-app:dev
 ```
 
+In test
+```
+docker build --target test --tag my-test-image .
+docker run my-test-image ./todo_app/tests
+```
+
+
 ## Using Docker compose
 Alternative to run the long docker run instruction for development the docker compose file can be used: ``` docker compose up ```
 ## General docker actions
