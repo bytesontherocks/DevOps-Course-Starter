@@ -1,5 +1,16 @@
 name: DevOps Course CI
-on: [push]
+on: 
+  push:
+    branches-ignore:
+      - '**'
+     paths:
+      - todo_app/**
+      - Dockerfile
+      - pyproject.toml
+
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build:
