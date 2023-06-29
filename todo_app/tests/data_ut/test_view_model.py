@@ -25,7 +25,7 @@ def test_view_model_to_do_property():
     to_do_its = vm.to_do_items
 
     assert(len(to_do_its) == 3)
-    assert(to_do_its[0] == items_to_test[1])
+    assert(to_do_its[0] == items_to_test[2])
     assert(to_do_its[1] == items_to_test[3])
     assert(to_do_its[2] == items_to_test[4])
 
