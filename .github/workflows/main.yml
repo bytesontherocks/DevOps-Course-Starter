@@ -3,7 +3,7 @@ on:
   push:
     branches-ignore:
       - '**'
-     paths:
+    paths:
       - todo_app/**
       - Dockerfile
       - pyproject.toml
