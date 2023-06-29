@@ -12,6 +12,10 @@ on:
   pull_request:
     branches:
       - master
+  
+  # every day the workflow is run at 3am
+  schedule:
+    - cron: '0 3 * * *'
 
 jobs:
   build:
