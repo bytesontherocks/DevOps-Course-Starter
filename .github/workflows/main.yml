@@ -1,6 +1,9 @@
 name: DevOps Course CI
 on: 
   push:
+    # all branches  
+    branches:
+      - '**'
     paths:
       - todo_app/**
       - Dockerfile
