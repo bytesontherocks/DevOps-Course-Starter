@@ -1,0 +1,27 @@
+name: DevOps Course CI
+on: 
+  push:
+    # all branches  
+    branches:
+      - '**'
+    paths:
+      - todo_app/**
+      - Dockerfile
+      - pyproject.toml
+
+  pull_request:
+    branches:
+      - master
+  
+  # every day the workflow is run at 3am
+  schedule:
+    - cron: '0 3 * * *'
+
+jobs:
+  build:
+    name: Build and test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - run: docker build --target test --tag my-test-image .
+    - run: docker run my-test-image ./todo_app/tests
