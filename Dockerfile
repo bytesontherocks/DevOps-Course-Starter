@@ -21,4 +21,3 @@ FROM base as test
 COPY .env.test .
 COPY todo_app ./todo_app
 ENTRYPOINT ["poetry", "run", "pytest"]
-# CMD [ "bash" ]
