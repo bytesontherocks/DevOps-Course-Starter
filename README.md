@@ -125,7 +125,7 @@ Set of instructions run for Azure cli:
 az appservice plan create --resource-group resource_group_example -n exercice_m8 --sku B1 --is-linux
 
 # create app and provide a name for the web app
-az webapp create --resource-group resource_group_example --plan exercice_m8 --name bytesontherocks-m8 --deployment-container-image-name docker.io/bytesontherocks/todo-app:prod
+az webapp create --resource-group resource_group_example --plan exercice_m8 --name bytesontherocks-m8 --deployment-container-image-name docker.io/bytesontherocks/todo-app:latest
 
 # set up environment variables
 az webapp config appsettings set -g resource_group_example -n bytesontherocks-m8 --settings @.env.json
