@@ -30,6 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      -run: echo "job deploy poi poi poi"
+      - uses: actions/checkout@v2
+      - run: echo "job deploy poi poi poi"
 
     
