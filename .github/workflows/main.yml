@@ -37,6 +37,9 @@ jobs:
       - name: Build Docker Image
         run: docker build --target prod -t todo-app:latest .  
 
+      - name: Tag the image
+        run: docker tag todo-app:latest "${{ secrets.DOCKER_REGISTRY_USER }}/todo-app:latest"
+
       - name: Push Docker Image
         run: docker push "${{ secrets.DOCKER_REGISTRY_USER }}/todo-app:latest"
 
