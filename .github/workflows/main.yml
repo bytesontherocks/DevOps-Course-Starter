@@ -31,19 +31,19 @@ jobs:
     needs: build
     steps:
       - uses: actions/checkout@v2
-      - name: Log in to Docker Registry
-        run: echo "${{ secrets.DOCKER_REGISTRY_PSW }}" | docker login -u "${{ secrets.DOCKER_REGISTRY_USER }}" --password-stdin
-
+     
       - name: Build Docker Image
         run: docker build --target prod -t todo-app:latest .  
+      
+      - name: Log in to Docker Registry
+        run: echo "${{ secrets.DOCKER_REGISTRY_PSW }}" | docker login -u "${{ secrets.DOCKER_REGISTRY_USER }}" --password-stdin
 
       - name: Tag the image
         run: docker tag todo-app:latest "${{ secrets.DOCKER_REGISTRY_USER }}/todo-app:latest"
 
       - name: Push Docker Image
         run: docker push "${{ secrets.DOCKER_REGISTRY_USER }}/todo-app:latest"
-
-      - name: Run Docker Container
-        run: docker run --env-file ./.env -p 8000:8000 -it todo-app:latest
-
+      
+      - name: Update deploy image in Azure
+        run: curl -X POST "${{ secrets.AZ_WEBHOOK_UPDATE_DOCKER_IMAGE }}" 
     
