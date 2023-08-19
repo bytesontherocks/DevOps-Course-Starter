@@ -25,6 +25,7 @@ jobs:
     - uses: actions/checkout@v2
     - run: docker build --target test --tag my-test-image .
     - run: docker run my-test-image ./todo_app/tests
+
   deploy:
     name: deploy
     runs-on: ubuntu-latest
@@ -49,5 +50,5 @@ jobs:
         run: docker push "${{ secrets.DOCKER_REGISTRY_USER }}/todo-app:latest"
       
       - name: Update deploy image in Azure
-        run: curl -dH -X --fail POST $UNESCAPED_AZ_WEBHOOK
+        run: curl -dH -X --fail POST "$UNESCAPED_AZ_WEBHOOK"
     
