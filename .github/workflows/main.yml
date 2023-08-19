@@ -45,5 +45,5 @@ jobs:
         run: docker push "${{ secrets.DOCKER_REGISTRY_USER }}/todo-app:latest"
       
       - name: Update deploy image in Azure
-        run: curl -dH -X POST "${{ secrets.AZ_WEBHOOK_UPDATE_DOCKER_IMAGE }}" 
+        run: curl -dH -X --fail POST "${{ secrets.AZ_WEBHOOK_UPDATE_DOCKER_IMAGE }}" 
     
