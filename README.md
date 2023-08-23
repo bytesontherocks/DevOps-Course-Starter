@@ -109,3 +109,27 @@ To configure the export files, add the following lines in the .vscode/settings.j
 "plantuml.diagramsRoot": "documentation/architecture",
 "plantuml.exportOutDir": "documentation/architecture/out"
 ```
+
+## Azure manual deployment
+
+Docker image: 
+```
+docker.io/bytesontherocks/todo-app:latest
+docker pull bytesontherocks/todo-app:latest
+```
+
+Set of instructions run for Azure cli:
+
+``` shell
+# create plan
+az appservice plan create --resource-group resource_group_example -n exercice_m8 --sku B1 --is-linux
+
+# create app and provide a name for the web app
+az webapp create --resource-group resource_group_example --plan exercice_m8 --name bytesontherocks-m8 --deployment-container-image-name docker.io/bytesontherocks/todo-app:prod
+
+# set up environment variables
+az webapp config appsettings set -g resource_group_example -n bytesontherocks-m8 --settings @.env.json
+
+# re-direct listening port
+az webapp config appsettings set --resource-group resource_group_example --name bytesontherocks-m8 --settings WEBSITES_PORT=8000
+```
