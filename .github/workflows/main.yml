@@ -33,7 +33,7 @@ jobs:
 
     needs: build
     env:
-      UNESCAPED_AZ_WEBHOOK: '${{ secrets.AZ_WEBHOOK_UPDATE_DOCKER_IMAGE }}'
+      UNESCAPED_AZ_WEBHOOK: ${{ secrets.AZ_WEBHOOK_UPDATE_DOCKER_IMAGE }}
     steps:
       - uses: actions/checkout@v2
      
@@ -50,5 +50,6 @@ jobs:
         run: docker push "${{ secrets.DOCKER_REGISTRY_USER }}/todo-app:latest"
       
       - name: Update deploy image in Azure
-        run: curl -dH -X --fail POST "$UNESCAPED_AZ_WEBHOOK"
+        run: curl -dH -X --fail POST '$UNESCAPED_AZ_WEBHOOK'
+             #curl -X POST -H "Content-Type: application/json" -d '{"key": "value"}' '$UNESCAPED_AZ_WEBHOOK'
     
