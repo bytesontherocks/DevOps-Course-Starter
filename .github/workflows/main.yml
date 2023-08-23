@@ -50,6 +50,5 @@ jobs:
         run: docker push "${{ secrets.DOCKER_REGISTRY_USER }}/todo-app:latest"
       
       - name: Update deploy image in Azure
-        run: curl -dH -X --fail POST $UNESCAPED_AZ_WEBHOOK
-             #curl -X POST -H "Content-Type: application/json" -d '{"key": "value"}' '$UNESCAPED_AZ_WEBHOOK'
+        run: curl -X POST -H "Content-Type: application/json" -d '{"key": "value"}' "${UNESCAPED_AZ_WEBHOOK}"
     
