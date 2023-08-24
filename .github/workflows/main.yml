@@ -53,6 +53,6 @@ jobs:
           AZURE_WEBHOOK_URL: ${{ secrets.AZ_WH }}
         run: |
           AZURE_WEBHOOK_URL="${AZURE_WEBHOOK_URL//DOLLAR_SIGN/$}"
-          echo ${AZURE_WEBHOOK_URL}
-          curl -dH -X --fail POST ${AZURE_WEBHOOK_URL}
+          echo ${{ secrets.AZ_WH }}
+          curl -dH -X --fail POST ${{ secrets.AZ_WH }}  
        
