@@ -32,8 +32,7 @@ jobs:
     # if: github.ref == 'refs/heads/master'
 
     needs: build
-    env:
-      UNESCAPED_AZ_WEBHOOK: ${{ secrets.AZ_WEBHOOK_UPDATE_DOCKER_IMAGE }}
+    
     steps:
       - uses: actions/checkout@v2
      
@@ -50,5 +49,7 @@ jobs:
         run: docker push "${{ secrets.DOCKER_REGISTRY_USER }}/todo-app:latest"
       
       - name: Update deploy image in Azure
+        env:
+          UNESCAPED_AZ_WEBHOOK: ${{ secrets.AZ_WEBHOOK_UPDATE_DOCKER_IMAGE }}
         run: curl -dH -X --fail POST "${UNESCAPED_AZ_WEBHOOK}"
-    
+       
