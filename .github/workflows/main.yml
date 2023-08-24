@@ -52,6 +52,6 @@ jobs:
         env:
           UNESCAPED_AZ_WEBHOOK: ${{ secrets.AZ_WEBHOOK_UPDATE_DOCKER_IMAGE }}
         run: |
-          echo ${{ secrets.AZ_WEBHOOK_UPDATE_DOCKER_IMAGE }}
-          curl -dH -X --fail POST ${{ secrets.AZ_WEBHOOK_UPDATE_DOCKER_IMAGE }}
+          echo ${{ secrets.AZ_WH }}
+          curl -dH -X --fail POST ${{ secrets.AZ_WH }}
        
