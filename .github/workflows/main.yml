@@ -50,8 +50,9 @@ jobs:
       
       - name: Update deploy image in Azure
         env:
-          UNESCAPED_AZ_WEBHOOK: ${{ secrets.AZ_WH }}
+          UNESCAPED_AZ_WEBHOOK: "${{ secrets.AZ_WH }}"
         run: |
           echo ${{ secrets.AZ_WH }}
-          curl -dH -X --fail POST $UNESCAPED_AZ_WEBHOOK
+          echo $UNESCAPED_AZ_WEBHOOK
+          curl -dH -X --fail POST "$UNESCAPED_AZ_WEBHOOK"
        
