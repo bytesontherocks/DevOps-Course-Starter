@@ -125,11 +125,21 @@ Set of instructions run for Azure cli:
 az appservice plan create --resource-group resource_group_example -n exercice_m8 --sku B1 --is-linux
 
 # create app and provide a name for the web app
-az webapp create --resource-group resource_group_example --plan exercice_m8 --name bytesontherocks-m8 --deployment-container-image-name docker.io/bytesontherocks/todo-app:prod
+az webapp create --resource-group resource_group_example --plan exercice_m8 --name bytesontherocks-m8 --deployment-container-image-name docker.io/bytesontherocks/todo-app:latest
 
 # set up environment variables
-az webapp config appsettings set -g resource_group_example -n bytesontherocks-m8 --settings @.env.json
+az webapp config appsettings set -g resource_group_example -n bytesontherocks-m8 --settings "@.env.json"
 
 # re-direct listening port
 az webapp config appsettings set --resource-group resource_group_example --name bytesontherocks-m8 --settings WEBSITES_PORT=8000
 ```
+
+Web page: `bytesontherocks-m8.azurewebsites.net`
+
+## Github actions
+
+For the repository holding the todo-app, create the following secrets (variables used by the github actions that are private):
+
+- DOCKER_REGISTRY_USER (docker.io log in user)
+- DOCKER_REGISTRY_PSW  (docker.io log in password)
+- AZ_WEBHOOK_UPDATE_DOCKER_IMAGE (Azure webhook found in the Deployment Service of the App Service)
