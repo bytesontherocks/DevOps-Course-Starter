@@ -51,5 +51,5 @@ jobs:
       - name: Update deploy image in Azure
         env:
           AZURE_WEBHOOK_URL: '${{ secrets.AZ_WH }}'
-        run: curl -dH -X --fail POST $AZURE_WEBHOOK_URL
+        run: curl -dH -X POST --fail $AZURE_WEBHOOK_URL
        

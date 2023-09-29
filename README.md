@@ -128,7 +128,7 @@ az appservice plan create --resource-group resource_group_example -n exercice_m8
 az webapp create --resource-group resource_group_example --plan exercice_m8 --name bytesontherocks-m8 --deployment-container-image-name docker.io/bytesontherocks/todo-app:latest
 
 # set up environment variables
-az webapp config appsettings set -g resource_group_example -n bytesontherocks-m8 --settings @.env.json
+az webapp config appsettings set -g resource_group_example -n bytesontherocks-m8 --settings "@.env.json"
 
 # re-direct listening port
 az webapp config appsettings set --resource-group resource_group_example --name bytesontherocks-m8 --settings WEBSITES_PORT=8000
