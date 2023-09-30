@@ -132,9 +132,16 @@ az webapp config appsettings set -g resource_group_example -n bytesontherocks-m8
 
 # re-direct listening port
 az webapp config appsettings set --resource-group resource_group_example --name bytesontherocks-m8 --settings WEBSITES_PORT=8000
-```
 
+```
 Web page: `bytesontherocks-m8.azurewebsites.net`
+
+Creating a MongoDB database
+
+``` shell
+az cosmosdb create --name <cosmos_account_name> --resource-group <resource_group_name> --kind MongoDB --capabilities EnableServerless --server-version 3.6
+az cosmosdb mongodb database create --account-name <cosmos_account_name> --name <database_name> --resource-group <resource_group_name>
+```
 
 ## Github actions
 
