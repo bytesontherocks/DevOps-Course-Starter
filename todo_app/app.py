@@ -1,7 +1,7 @@
 from todo_app.data.ViewModel import ViewModel
 from flask import Flask, redirect, render_template, request, url_for
 
-from todo_app.data.trello_items import (add_item, get_items,
+from todo_app.data.db_items import (add_item, get_items,
                                         move_card_to_new_list)
 from todo_app.flask_config import Config
 
