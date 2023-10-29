@@ -33,7 +33,6 @@ def get_items():
             max_id = int(it['id_short'])
         cards.append(Item(it['id_short'], it['name'], it['status']))
 
-    print(f"max_id {max_id}")
     return cards
 
 def add_item(title):

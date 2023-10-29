@@ -150,3 +150,18 @@ For the repository holding the todo-app, create the following secrets (variables
 - DOCKER_REGISTRY_USER (docker.io log in user)
 - DOCKER_REGISTRY_PSW  (docker.io log in password)
 - AZ_WEBHOOK_UPDATE_DOCKER_IMAGE (Azure webhook found in the Deployment Service of the App Service)
+
+## Developer in VS Code
+Debugging flask in poetry and pytes t
+
+{
+    "name": "Python: run poetry pytest",
+    "type": "python",
+    "request": "launch",
+    "cwd": "${workspaceFolder}",
+    "module": "pytest",
+    "args": [
+    ],
+    "console": "integratedTerminal",
+    "justMyCode": false,
+},

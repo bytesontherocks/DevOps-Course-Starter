@@ -18,26 +18,22 @@ def client():
             yield client
 
 def test_index_page(monkeypatch, client):
+ 
+    insert_data_to_db()
+
+    response = client.get('/')
+    
+    print(f"response {response}")
+    
+    decoded_data = response.data.decode()
+
+    assert response.status_code == 200
+    assert 'Test card to do' in decoded_data
+    assert 'Test card done' in decoded_data
+
+def insert_data_to_db():
     collection = mongomock.MongoClient().db.collection
 
-    # response = client.get('/')
-
-    # decoded_data = response.data.decode()
-
-    # assert response.status_code == 200
-    # assert 'Test card to do' in decoded_data
-    # assert 'Test card done' in decoded_data
-class StubResponse():
-    def __init__(self, fake_response_data, fake_status_code):
-        self.fake_response_data = fake_response_data
-        self.status_code = fake_status_code
-    def json(self):
-        return self.fake_response_data
-
-
-def stub(url, headers={}, params={}):
-    collection = mongomock.MongoClient().db.collection
-    fake_response_data = None
     card_0 = {
        'id': '123abc',            
        'name': 'To Do',
