@@ -23,12 +23,12 @@ def create_app():
 
     @app.route('/complete_item/<id>', methods=['POST'])
     def mark_item_as_complete(id):
-        move_card_to_new_list(id, 'To Do', 'Done')
+        move_card_to_new_list(id, 'Done')
         return redirect(url_for('index'))
 
     @app.route('/todo/<id>', methods=['POST'])
     def mark_item_as_todo(id):
-        move_card_to_new_list(id, 'Done', 'To Do')
+        move_card_to_new_list(id, 'To Do')
         return redirect(url_for('index'))
     
     return app

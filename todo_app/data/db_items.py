@@ -51,7 +51,7 @@ def add_item(title):
 
     return post_id
 
-def move_card_to_new_list(id, current_list_name, new_list_name):
+def move_card_to_new_list(id, new_list_name):
     """
     Moves an specific card from one list to another
 
