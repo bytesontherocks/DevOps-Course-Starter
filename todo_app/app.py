@@ -2,7 +2,7 @@ from todo_app.data.ViewModel import ViewModel
 from flask import Flask, redirect, render_template, request, url_for
 
 from todo_app.data.db_items import (add_item, get_items,
-                                        move_card_to_new_list)
+                                        move_card_to_new_list, drop_collection)
 from todo_app.flask_config import Config
 
 def create_app():
@@ -30,5 +30,8 @@ def create_app():
     def mark_item_as_todo(id):
         move_card_to_new_list(id, 'To Do')
         return redirect(url_for('index'))
+    
+    def drop_collection():
+        drop_collection()
     
     return app

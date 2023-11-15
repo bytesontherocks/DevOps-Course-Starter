@@ -69,3 +69,6 @@ def move_card_to_new_list(id, new_list_name):
 
     item = mdb_items_col.update_many({"_id": id}, { "$set": { "status": new_list_name }})
     
+def drop_collection():
+    db = getDb()
+    db.items.drop()
