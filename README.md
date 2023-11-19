@@ -132,9 +132,16 @@ az webapp config appsettings set -g resource_group_example -n bytesontherocks-m8
 
 # re-direct listening port
 az webapp config appsettings set --resource-group resource_group_example --name bytesontherocks-m8 --settings WEBSITES_PORT=8000
-```
 
+```
 Web page: `bytesontherocks-m8.azurewebsites.net`
+
+Creating a MongoDB database
+
+``` shell
+az cosmosdb create --name <cosmos_account_name> --resource-group <resource_group_name> --kind MongoDB --capabilities EnableServerless --server-version 3.6
+az cosmosdb mongodb database create --account-name <cosmos_account_name> --name <database_name> --resource-group <resource_group_name>
+```
 
 ## Github actions
 
@@ -143,3 +150,18 @@ For the repository holding the todo-app, create the following secrets (variables
 - DOCKER_REGISTRY_USER (docker.io log in user)
 - DOCKER_REGISTRY_PSW  (docker.io log in password)
 - AZ_WEBHOOK_UPDATE_DOCKER_IMAGE (Azure webhook found in the Deployment Service of the App Service)
+
+## Developer in VS Code
+Debugging flask in poetry and pytes t
+
+{
+    "name": "Python: run poetry pytest",
+    "type": "python",
+    "request": "launch",
+    "cwd": "${workspaceFolder}",
+    "module": "pytest",
+    "args": [
+    ],
+    "console": "integratedTerminal",
+    "justMyCode": false,
+},

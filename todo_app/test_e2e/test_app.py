@@ -12,27 +12,18 @@ headers = {
   "Accept": "application/json"
 }
 
-query = {
-  'key': os.getenv('TRELLO_API_KEY'),
-  'token': os.getenv('TRELLO_API_TOKEN')
-}
-
-testing_board = {
-    'name' : 'e2e_testing_board',
-    'id' : '-1'
-}
-
 @pytest.fixture(scope='module')
-def app_with_temp_board():
+def app_with_temp_db():
     # Load our real environment variables
     load_dotenv(override=True)
 
-    # Create the new board & update the board id environment variable
-    board_id = create_trello_board()
-    os.environ['TRELLO_BOARD_ID'] = board_id
+    # Set new environment variable
+    set_testing_db()   
 
     # Construct the new application
     application = app.create_app()
+
+    app.add_item("testing")
 
     # Start the app in its own thread.
     thread = Thread(target=lambda: application.run(use_reloader=False))
@@ -47,36 +38,13 @@ def app_with_temp_board():
 
     # Tear down
     thread.join(1)
-    delete_trello_board(board_id)
+    drop_db_collection()
 
-def create_trello_board():
-    url = "https://api.trello.com/1/boards/"
+def set_testing_db():    
+    os.environ['AZ_MONGODB_DB_NAME'] = 'az-mongo-db-gcg-test'
 
-    query['name'] = testing_board['name']
-
-    response = requests.post(
-        url,
-        headers=headers,
-        params=query
-    )
-
-    if response.status_code == 200:
-        resp_json = response.json()
-        testing_board['id'] = resp_json['id']
-        #print(f"Print new testing board id: {testing_board['id']}")
-    
-    return testing_board['id']
-
-def delete_trello_board(board_id):
-    url = "https://api.trello.com/1/boards/{board_id}"
-
-    response = requests.delete(
-        url,
-        headers=headers,
-        params=query
-    )
-    
-    pass
+def drop_db_collection():
+    app.drop_collection()
 
 @pytest.fixture(scope="module")
 def driver():
@@ -85,7 +53,7 @@ def driver():
     with webdriver.Firefox(options=opts) as driver:
         yield driver
 
-def test_task_journey(driver, app_with_temp_board):
+def test_task_journey(driver, app_with_temp_db):
     driver.get('http://localhost:5000/')
 
     assert driver.title == 'To-Do App'
